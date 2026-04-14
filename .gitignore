@@ -22,7 +22,7 @@ data/history.db-wal
 # Configuración local (opcional ignorar)
 # ========================
 data/envs.json
-#data/endpoints.json
+data/endpoints.json
 
 # ========================
 # Datos sensibles (si decides usarlos)

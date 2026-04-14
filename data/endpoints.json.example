@@ -1,0 +1,23 @@
+{
+  "get_users": {
+    "method": "GET",
+    "url": "/users"
+  },
+  "create_post": {
+    "method": "POST",
+    "url": "/posts",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "title": "{{title}}",
+      "body": "{{body}}"
+    }
+  },
+  "get_posts": {
+    "method": "GET",
+    "url": "/posts",
+    "headers": {},
+    "body": {}
+  }
+}

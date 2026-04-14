@@ -1,0 +1,12 @@
+{
+  "default": {
+    "base_url": "https://jsonplaceholder.typicode.com",
+    "headers": {}
+  },
+  "dev": {
+    "base_url": "https://dev.api.com",
+    "headers": {
+      "Authorization": "Bearer dev-token"
+    }
+  }
+}

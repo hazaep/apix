@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+source "$(dirname "$0")/../src/lib/config.sh"
+
+cmd=$1
+shift
+
+case "$cmd" in
+  list)
+    jq -r 'keys[]' "$ENDPOINTS_FILE"
+    ;;
+  run)
+    run_endpoint "$@"
+    ;;
+  env)
+    cmd_env "$@"
+    ;;
+  add)
+    cmd_add "$@"
+    ;;
+  history)
+    sqlite3 "$DB_FILE" "SELECT id, timestamp, endpoint, method, url, response_code FROM history ORDER BY id DESC LIMIT 10;"
+    ;;
+  replay)
+    id=$1
+
+    row=$(sqlite3 "$DB_FILE" "SELECT endpoint, env, request_body FROM history WHERE id=$id;")
+
+    endpoint=$(echo "$row" | cut -d'|' -f1)
+    env=$(echo "$row" | cut -d'|' -f2)
+    body=$(echo "$row" | cut -d'|' -f3)
+
+    echo "Replaying $endpoint ($env)"
+
+    run_endpoint "$endpoint" --env="$env"
+    ;;
+  *)
+    echo "Usage: api-core [list|run <endpoint>]"
+    ;;
+esac

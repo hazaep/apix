@@ -1,0 +1,65 @@
+# ========================
+# OS / sistema
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Shell / entorno
+# ========================
+*.log
+*.tmp
+*.swp
+
+# ========================
+# Archivos generados por el CLI
+# ========================
+data/history.db
+data/history.db-shm
+data/history.db-wal
+
+# ========================
+# Configuración local (opcional ignorar)
+# ========================
+data/envs.json
+#data/endpoints.json
+
+# ========================
+# Datos sensibles (si decides usarlos)
+# ========================
+*.env
+.env.*
+secrets.json
+
+# ========================
+# Backups accidentales
+# ========================
+*.bak
+*.backup
+
+# ========================
+# Archivos temporales de jq / mktemp
+# ========================
+/tmp/*
+tmp/*
+*.tmp.*
+
+# ========================
+# Node (por si luego migras)
+# ========================
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ========================
+# Go (por si migras después)
+# ========================
+#bin/
+dist/
+
+# ========================
+# Coverage / testing
+# ========================
+coverage/
+*.out

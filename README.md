@@ -1,4 +1,4 @@
-# 🚀 API Core (Working name: Relay)
+# 🚀 APIX
 
 > Minimalista, scriptable y poderoso — un runtime CLI para interactuar con APIs.
 
@@ -6,7 +6,7 @@
 
 ## 🧠 ¿Qué es esto?
 
-**API Core** es una herramienta CLI que te permite:
+**APIX** es una herramienta CLI que te permite:
 
 * Definir endpoints como código
 * Ejecutarlos con variables dinámicas
@@ -60,10 +60,10 @@ Pero orientado a **automatización real**, no UI.
 ## 🚀 Instalación
 
 ```bash
-git clone https://github.com/hazaep/api-core.git
-cd api-core
+git clone https://github.com/hazaep/apix.git
+cd apix
 
-chmod +x bin/api-core
+chmod +x bin/apix
 ```
 
 Agregar al PATH:
@@ -79,7 +79,7 @@ export PATH="$PWD/bin:$PATH"
 ### 📌 Listar endpoints
 
 ```bash
-api-core list
+apix list
 ```
 
 ---
@@ -87,19 +87,19 @@ api-core list
 ### ▶️ Ejecutar endpoint
 
 ```bash
-api-core run get_users
+apix run get_users
 ```
 
 Con variables:
 
 ```bash
-api-core run create_post title="Hola" body="Mundo"
+apix run create_post title="Hola" body="Mundo"
 ```
 
 Con entorno:
 
 ```bash
-api-core run get_users --env=dev
+apix run get_users --env=dev
 ```
 
 ---
@@ -109,14 +109,14 @@ api-core run get_users --env=dev
 ### Crear entorno
 
 ```bash
-api-core env add dev https://api.dev.com \
+apix env add dev https://api.dev.com \
   header:Authorization="Bearer token-dev"
 ```
 
 ### Listar entornos
 
 ```bash
-api-core env list
+apix env list
 ```
 
 ---
@@ -124,7 +124,7 @@ api-core env list
 ## 🧩 Crear endpoints
 
 ```bash
-api-core add create_post POST /posts \
+apix add create_post POST /posts \
   header:Content-Type=application/json \
   body:title="{{title}}" \
   body:body="{{body}}"
@@ -135,7 +135,7 @@ api-core add create_post POST /posts \
 ## 🧪 Modo interactivo
 
 ```bash
-api-core add --interactive
+apix add --interactive
 ```
 
 ---
@@ -143,7 +143,7 @@ api-core add --interactive
 ## 🧾 Historial
 
 ```bash
-api-core history
+apix history
 ```
 
 ---
@@ -151,7 +151,7 @@ api-core history
 ## 🔁 Replay
 
 ```bash
-api-core replay 10
+apix replay 10
 ```
 
 ---
@@ -173,9 +173,9 @@ api-core replay 10
 ### Ejemplos
 
 ```bash
-api-core run vila --json
-api-core run vila --status
-api-core run vila --path '.output'
+apix run vila --json
+apix run vila --status
+apix run vila --path '.output'
 ```
 
 ---
@@ -230,13 +230,6 @@ Soporte planeado para:
 * Testing rápido de endpoints
 * OSINT / pentesting
 * Data pipelines
-
----
-
-## 🏷️ Naming
-
-Nombre actual: `api-core`
-Candidato futuro: **relay**
 
 ---
 

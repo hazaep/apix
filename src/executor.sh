@@ -4,7 +4,6 @@ run_endpoint() {
 
   local env="$DEFAULT_ENV"
   local args=()
-
   # flags
   local FLAG_VERBOSE=false
   local FLAG_SILENT=false
@@ -49,16 +48,14 @@ run_endpoint() {
   # cargar datos
   local endpoint_json=$(get_endpoint_json "$name")
   local env_json=$(get_env_json "$env")
-
   local method=$(echo "$endpoint_json" | jq -r '.method')
   local path=$(echo "$endpoint_json" | jq -r '.url')
   local base_url=$(echo "$env_json" | jq -r '.base_url')
-
   local url="${base_url}${path}"
+  # cargar secrets
+  load_secrets "$env"
 
-  # ========================
   # HEADERS
-  # ========================
   
   local headers=()
 
@@ -66,15 +63,12 @@ run_endpoint() {
   while IFS="=" read -r key value; do
     headers+=("-H" "$key: $value")
   done < <(echo "$env_json" | jq -r '.headers // {} | to_entries[] | "\(.key)=\(.value)"')
-
   # endpoint headers (override)
   while IFS="=" read -r key value; do
     headers+=("-H" "$key: $value")
   done < <(echo "$endpoint_json" | jq -r '.headers // {} | to_entries[] | "\(.key)=\(.value)"')
 
-  # ========================
   # BODY
-  # ========================
 
   local body=$(echo "$endpoint_json" | jq -c '.body // empty')
 
@@ -82,26 +76,20 @@ run_endpoint() {
     body=$(render_json_template "$body" "${args[@]}")
   fi
 
-  # ========================
   # DEBUG (opcional pero útil)
-  # ========================
   if [[ "$FLAG_VERBOSE" == true ]]; then
     echo "→ $method $url"
-
     echo "Headers:"
     for h in "${headers[@]}"; do
       echo "  $h"
     done
-
     if [[ -n "$body" ]]; then
       echo "Body:"
       echo "$body" | jq .
     fi
   fi
 
-  # ========================
   # CURL
-  # ========================
 
   if [[ -n "$body" ]]; then
     # detectar si ya existe content-type
@@ -112,7 +100,6 @@ run_endpoint() {
         break
       fi
     done
-
     if [[ "$has_ct" == false ]]; then
       headers+=("-H" "Content-Type: application/json")
     fi
@@ -120,7 +107,6 @@ run_endpoint() {
 
   # ejecutar curl y capturar código HTTP
   response=$(mktemp)
-
   if [[ -n "$body" ]]; then
     http_code=$(curl -s -D "$response.headers" -o "$response" -w "%{http_code}" \
       -X "$method" "$url" "${headers[@]}" --data-raw "$body")
@@ -128,7 +114,6 @@ run_endpoint() {
     http_code=$(curl -s -D "$response.headers" -o "$response" -w "%{http_code}" \
       -X "$method" "$url" "${headers[@]}")
   fi
-
 
   response_body=$(cat "$response")
   response_headers=$(cat "$response.headers")
@@ -181,6 +166,5 @@ run_endpoint() {
 
   # guardar historial
   save_history "$name" "$method" "$url" "$env" "$body" "$http_code"
-
   rm "$response"
 }

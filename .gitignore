@@ -19,17 +19,17 @@ data/history.db-shm
 data/history.db-wal
 
 # ========================
-# Configuración local (opcional ignorar)
+# Configuración local
 # ========================
 data/envs.json
 data/endpoints.json
 
 # ========================
-# Datos sensibles (si decides usarlos)
+# Datos sensibles
 # ========================
 *.env
 .env.*
-secrets.json
+data/secrets/*.env
 
 # ========================
 # Backups accidentales

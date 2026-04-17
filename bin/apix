@@ -18,6 +18,25 @@ case "$cmd" in
   add)
     cmd_add "$@"
     ;;
+  secrets)
+    subcmd=$1
+    shift
+
+    case "$subcmd" in
+      init)
+        secrets_init
+        ;;
+      encrypt)
+        secrets_encrypt_file "$1"
+        ;;
+      add)
+        secrets_add "$@"
+        ;;
+      *)
+        echo "Usage: apix secrets [init|encrypt|add]"
+        ;;
+    esac
+    ;;
   history)
     sqlite3 "$DB_FILE" "SELECT id, timestamp, endpoint, method, url, response_code FROM history ORDER BY id DESC LIMIT 10;"
     ;;
